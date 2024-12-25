@@ -2,6 +2,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { FilterPostDto } from './post-filter.dto';
+import { CreateLikeDto } from './create-like.dto';
 
 @Injectable()
 export class PostsRepository {
@@ -73,11 +74,40 @@ export class PostsRepository {
     return result;
   }
   async createComment(data: Prisma.CommentUncheckedCreateInput){
-    const result = this.prisma.comment.create({data});
+    const result = await this.prisma.comment.create({data});
     return result;
   }
 
-  async getAllComment(){
-    return this.prisma.comment.findMany();
+  async getCommentByPostId(postId: number){
+    return await this.prisma.comment.findMany({
+      where: {
+        postId
+      }
+    });
   }
+
+  async getLikedPost(userId: number){
+    const likedPosts = this.prisma.like.findMany({
+      where:{
+       userId 
+      }
+    })
+    const postIds = (await likedPosts).map((like) => like.postId)
+    return await this.prisma.post.findMany(({
+      where: {
+        id: {in: postIds}
+      }
+    }))
+  }
+
+  async createLike(data: Prisma.LikeUncheckedCreateInput){
+    return await this.prisma.like.create({data})
+  }
+
+  async deleteLike(where: Prisma.LikeWhereUniqueInput) {
+    return this.prisma.like.delete({
+      where,
+    });
+  }
+
 }

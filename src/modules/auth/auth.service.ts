@@ -21,8 +21,8 @@ export class AuthService{
           const user = await this.usersService.findByEmail(email);
           const isPasswordValid = await bcrypt.compare(password, user.password);
           if(isPasswordValid)
-            return true;
-          return false;
+            return {id: user.id,name: user.name,email: user.email};
+          return null;
         }
     public async register(registerData: RegisterDto){
       const salt = bcrypt.genSaltSync(10);

@@ -80,6 +80,15 @@ export type User = Selectable<UserTable>;
 export type NewUser = Insertable<UserTable>;
 export type UserUpdate = Updateable<UserTable>;
 
+export interface LikeTable {
+  userId: number;
+  postId: number;
+}
+
+export type Like = Selectable<LikeTable>;
+export type NewLike = Insertable<LikeTable>;
+export type LikeUpdate = Updateable<LikeTable>;
+
 export interface AuthRefreshTokenTable {
   id: Generated<number>;
   value: string;

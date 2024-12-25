@@ -8,15 +8,17 @@ datasource db {
 }
 
 model Post {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   name       String
   price      Float?
-  voteRate   Float?   @map("vote_rate")
-  materials  String   @default("")
+  voteRate   Float?    @map("vote_rate")
+  materials  String    @default("")
   making     String?
   image      String?
-  categoryId Int      @map("category_id")
-  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int       @map("category_id")
+  category   Category  @relation(fields: [categoryId], references: [id])
+  Like       Like[]
+  Comment    Comment[]
 
   @@index([categoryId], map: "Post_category_id_fkey")
 }
@@ -33,11 +35,25 @@ model Comment {
   userName    String @map("user_name")
   description String
   postId      Int    @map("post_id")
+  user        User   @relation(fields: [userId], references: [id])
+  post        Post   @relation(fields: [postId], references: [id])
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
   email    String
   password String
+  Like     Like[]
+  Comment  Comment[]
+}
+
+model Like {
+  userId Int @map("user_id")
+  postId Int @map("post_id")
+
+  User User @relation(fields: [userId], references: [id])
+  Post Post @relation(fields: [postId], references: [id])
+
+  @@id([userId, postId]) // Composite primary key to ensure uniqueness
 }

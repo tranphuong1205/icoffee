@@ -4,6 +4,7 @@ import { FilterPostDto } from './post-filter.dto';
 import { CreateCommentDto } from './create-comment.dto';
 import { Prisma } from '@prisma/client';
 import { CreatePostDto } from './create-post.dto';
+import { CreateLikeDto } from './create-like.dto';
 
 @Injectable()
 export class PostsService {
@@ -27,10 +28,24 @@ export class PostsService {
     return await this.postRepository.createComment(param);
   }
 
-  async getAllComment(){
-    return await this.postRepository.getAllComment();
+  async getCommentByPostId(id: number){
+    return await this.postRepository.getCommentByPostId(id);
   }
   async createPost(data: CreatePostDto){
     return await this.postRepository.createPost(data)
   }
+
+  async getLikedPost(userId: number){
+    return await this.postRepository.getLikedPost(userId)
+  }
+
+  async createLike(data: CreateLikeDto){
+    return this.postRepository.createLike(data)
+  }
+
+  async dislike(where: { userId: number; postId: number }) {
+    return this.postRepository.deleteLike({
+      userId_postId: where, // Map the input to the compound unique key
+    });
+  }  
 }
