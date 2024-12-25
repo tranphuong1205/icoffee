@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,17 +8,17 @@ datasource db {
 }
 
 model Post {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   name       String
   price      Float?
-  voteRate   Float?    @map("vote_rate")
-  materials  String    @default("")
+  voteRate   Float?   @map("vote_rate")
+  materials  String   @default("")
   making     String?
   image      String?
-  categoryId Int       @map("category_id")
-  commment   Comment[]
-  category   Category  @relation(fields: [categoryId], references: [id])
-  likeBy     User[]
+  categoryId Int      @map("category_id")
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@index([categoryId], map: "Post_category_id_fkey")
 }
 
 model Category {
@@ -39,15 +33,11 @@ model Comment {
   userName    String @map("user_name")
   description String
   postId      Int    @map("post_id")
-  post        Post   @relation(fields: [postId], references: [id])
-  user        User   @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   name     String
   email    String
   password String
-  Comment  Comment[]
-  post     Post[]
 }

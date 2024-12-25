@@ -8,6 +8,7 @@ const dialect = new MysqlDialect({
     database: 'itss',
     host: 'battle-ship-phuongxxx971022-4df8.c.aivencloud.com',
     user: 'avnadmin',
+    password:'',
     port: 16578,
     connectionLimit: 10,
   }),

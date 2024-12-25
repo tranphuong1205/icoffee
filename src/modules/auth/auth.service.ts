@@ -16,15 +16,14 @@ export class AuthService{
          private readonly configService: ConfigService
 
         ){}
-    public async login(loginData: LoginDto) {
-        const { email, password } = loginData;
-        const user = await this.usersService.findByEmail(email);
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if(isPasswordValid)
-          return true;
-        return false;
-
-      }
+        public async login(loginData: LoginDto) {
+          const { email, password } = loginData;
+          const user = await this.usersService.findByEmail(email);
+          const isPasswordValid = await bcrypt.compare(password, user.password);
+          if(isPasswordValid)
+            return true;
+          return false;
+        }
     public async register(registerData: RegisterDto){
       const salt = bcrypt.genSaltSync(10);
       const hashedPassword = await bcrypt.hash(registerData.password, salt);
@@ -32,7 +31,7 @@ export class AuthService{
         ...registerData,
         password: hashedPassword,
       }
-      const user = await this.usersService.createUser(registerData)
+      const user = await this.usersService.createUser(registerUser)
       return user;
     }
     

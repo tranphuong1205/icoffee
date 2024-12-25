@@ -15,7 +15,7 @@ export class CreateUserDto {
   @ApiProperty({ example: '123456' })
     password: string;
 
-  @IsString()
+  // @IsString()
   @IsEmail({}, { message: 'EMAIL_IS_INVALID' })
   @IsOptional()
   @ApiProperty({ example: 'test@gmail.com' })
