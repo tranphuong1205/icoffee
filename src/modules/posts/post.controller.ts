@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { FilterPostDto } from './post-filter.dto';
 import { PostsService } from './post.service';
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { CreatePostDto } from './create-post.dto';
 import { CreateCommentDto } from './create-comment.dto';
 import { CreateLikeDto } from './create-like.dto';
@@ -49,5 +49,15 @@ export class PostController {
   @Delete('like')
   dislike(@Body() data:CreateLikeDto ){
     return this.postsService.dislike(data)
+  }
+
+  @Delete('delete/:id')
+  deletePost(@Param('id', ParseIntPipe) id: number){
+    return this.postsService.deletePost(id)
+  }
+
+  @Patch('update/:id')
+  updatePost(@Param('id', ParseIntPipe) id: number, @Body() data: CreatePostDto){
+    return this.postsService.updatePost(id, data)
   }
 }

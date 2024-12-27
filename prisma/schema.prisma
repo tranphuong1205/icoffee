@@ -8,17 +8,19 @@ datasource db {
 }
 
 model Post {
-  id         Int       @id @default(autoincrement())
-  name       String
-  price      Float?
-  voteRate   Float?    @map("vote_rate")
-  materials  String    @default("")
-  making     String?
-  image      String?
-  categoryId Int       @map("category_id")
-  category   Category  @relation(fields: [categoryId], references: [id])
-  Like       Like[]
-  Comment    Comment[]
+  id           Int       @id @default(autoincrement())
+  name         String
+  price        Float?
+  materials    String    @default("")
+  making       String?
+  image        String?
+  flavor       String?
+  sameCourseId Int       @default(0) @map("same_course_id")
+  categoryId   Int       @map("category_id")
+  category     Category  @relation(fields: [categoryId], references: [id])
+  sameCourse   JapanFood @relation(fields: [sameCourseId], references: [id])
+  Like         Like[]
+  Comment      Comment[]
 
   @@index([categoryId], map: "Post_category_id_fkey")
 }
@@ -34,6 +36,7 @@ model Comment {
   userId      Int    @map("user_id")
   userName    String @map("user_name")
   description String
+  rate        Float  @default(5.0)
   postId      Int    @map("post_id")
   user        User   @relation(fields: [userId], references: [id])
   post        Post   @relation(fields: [postId], references: [id])
@@ -56,4 +59,11 @@ model Like {
   Post Post @relation(fields: [postId], references: [id])
 
   @@id([userId, postId]) // Composite primary key to ensure uniqueness
+}
+
+model JapanFood {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  Post        Post[]
 }

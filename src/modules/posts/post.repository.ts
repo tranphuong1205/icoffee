@@ -2,7 +2,6 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { FilterPostDto } from './post-filter.dto';
-import { CreateLikeDto } from './create-like.dto';
 
 @Injectable()
 export class PostsRepository {
@@ -44,7 +43,6 @@ export class PostsRepository {
     if (flavor) {
       where.flavor = {
         contains: flavor,
-        mode: 'insensitive', // Case-insensitive match
       };
     }
 
@@ -52,8 +50,8 @@ export class PostsRepository {
     if (search) {
       where.OR = [
         ...(where.OR || []), // Include previous OR conditions if any
-        { name: { contains: search, mode: 'insensitive' } },
-        { flavor: { contains: search, mode: 'insensitive' } },
+        { name: { contains: search } },
+        { flavor : { contains: search} },
       ];
     }
 
@@ -105,9 +103,24 @@ export class PostsRepository {
   }
 
   async deleteLike(where: Prisma.LikeWhereUniqueInput) {
-    return this.prisma.like.delete({
+    return await this.prisma.like.delete({
       where,
     });
+  }
+
+  async updatePost(postId: number, data: Prisma.PostUncheckedUpdateInput){
+    return await this.prisma.post.update({
+      where: {
+        id: postId
+      },
+      data
+    })
+  }
+
+  async deletePost(where: Prisma.PostWhereUniqueInput){
+    return await this.prisma.post.delete({
+      where
+    })
   }
 
 }

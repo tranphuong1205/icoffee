@@ -40,12 +40,21 @@ export class PostsService {
   }
 
   async createLike(data: CreateLikeDto){
-    return this.postRepository.createLike(data)
+    return await this.postRepository.createLike(data)
   }
 
   async dislike(where: { userId: number; postId: number }) {
-    return this.postRepository.deleteLike({
+    return await this.postRepository.deleteLike({
       userId_postId: where, // Map the input to the compound unique key
     });
   }  
+
+  async updatePost(postId: number, data: CreatePostDto){
+    return await this.postRepository.updatePost(postId, data)
+  }
+
+  async deletePost(id: number) {
+    return await this.postRepository.deletePost({ id });
+  }
+  
 }

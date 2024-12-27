@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsArray, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class FilterPostDto {
   @IsOptional()
@@ -11,6 +12,7 @@ export class FilterPostDto {
 
   @IsOptional()
   @IsNumber()
+  @Transform(({value}) => Number(value))
   @ApiProperty({ required: false })
   categoryId?: number[];
 
@@ -20,12 +22,14 @@ export class FilterPostDto {
   flavor?: string[];
 
   @IsOptional()
-  @IsString()
+  @Transform(({value}) => (Array.isArray(value) ? value.map((item) => Number(item)) : [Number(value)]))
+  @IsArray()
   @ApiProperty({ required: false })
   beginPrice?: number[];
 
   @IsOptional()
-  @IsString()
+  @Transform(({value}) => (Array.isArray(value) ? value.map((item) => Number(item)) : [Number(value)]))
+  @IsArray()
   @ApiProperty({ required: false })
   endPrice?: number[];
 }

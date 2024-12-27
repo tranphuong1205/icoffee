@@ -13,16 +13,21 @@ export class CreatePostDto {
   price: number;
 
   @IsNumber()
-  @ApiProperty({ required: false })
-  voteRate: number;
+  @ApiProperty({ required:true})
+  categoryId: number;
 
   @IsNumber()
   @ApiProperty({ required:true})
-  categoryId: number;
+  sameCourseId: number;
+
 
   @IsString()
   @ApiProperty({ required: true })
   materials: string;
+
+  @IsString()
+  @ApiProperty({ required: true })
+  flavor: string;
 
   @IsString()
   @ApiProperty({ required: false })

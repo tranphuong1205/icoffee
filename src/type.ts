@@ -18,7 +18,6 @@ export interface PostTable {
   // If the column is nullable in the database, make its type nullable.
   // Don't use optional properties. Optionality is always determined
   // automatically by Kysely.
-  voteRate: number;
   flavor: string;
 
   // You can specify a different type for each operation (select, insert and
@@ -30,6 +29,7 @@ export interface PostTable {
   making: string;
   image: string;
   categoryId: number;
+  sameCourseId:number;
 
   // You can specify JSON columns using the `JSONColumnType` wrapper.
   // It is a shorthand for `ColumnType<T, string, string>`, where T
