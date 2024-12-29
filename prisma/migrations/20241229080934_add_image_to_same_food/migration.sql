@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `Comment` ADD COLUMN `rate` DOUBLE NOT NULL DEFAULT 5.0;
+
+-- AlterTable
+ALTER TABLE `JapanFood` ADD COLUMN `image` VARCHAR(191) NULL;

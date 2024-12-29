@@ -60,4 +60,9 @@ export class PostController {
   updatePost(@Param('id', ParseIntPipe) id: number, @Body() data: CreatePostDto){
     return this.postsService.updatePost(id, data)
   }
+
+  @Get('sameCourse/:postId')
+  getSameCourse(@Param('postId', ParseIntPipe) postId: number){
+    return this.postsService.getSameCourse(postId)
+  }
 }
