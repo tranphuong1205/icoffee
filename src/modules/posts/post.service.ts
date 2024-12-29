@@ -24,6 +24,7 @@ export class PostsService {
       userName: data.userName,
       description: data.description,
       postId: data.postId,
+      rate: data.rate
     }
     return await this.postRepository.createComment(param);
   }
@@ -55,6 +56,10 @@ export class PostsService {
 
   async deletePost(id: number) {
     return await this.postRepository.deletePost({ id });
+  }
+
+  async getSameCourse(postId: number){
+    return await this.postRepository.getSameCourse(postId)
   }
   
 }

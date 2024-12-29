@@ -66,5 +66,6 @@ model JapanFood {
   id          Int     @id @default(autoincrement())
   name        String
   description String?
+  image       String?
   Post        Post[]
 }

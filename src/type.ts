@@ -89,6 +89,16 @@ export type Like = Selectable<LikeTable>;
 export type NewLike = Insertable<LikeTable>;
 export type LikeUpdate = Updateable<LikeTable>;
 
+export interface JapanFoodTable {
+ id: number;
+  name: string;
+  description: string
+}
+
+export type JapanFood = Selectable<JapanFoodTable>;
+export type NewJapanFood = Insertable<JapanFoodTable>;
+export type JapanFoodUpdate = Updateable<JapanFoodTable>;
+
 export interface AuthRefreshTokenTable {
   id: Generated<number>;
   value: string;

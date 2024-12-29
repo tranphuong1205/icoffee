@@ -123,4 +123,17 @@ export class PostsRepository {
     })
   }
 
+  async getSameCourse(postId: number){
+    const post =  await this.prisma.post.findFirst({
+      where : {
+        id: postId
+      },
+    })
+    return await this.prisma.japanFood.findUnique({
+      where: {
+        id: post.sameCourseId
+      }
+    })
+  }
+
 }
