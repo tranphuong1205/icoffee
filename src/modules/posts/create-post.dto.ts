@@ -17,8 +17,8 @@ export class CreatePostDto {
   categoryId: number;
 
   @IsNumber()
-  @ApiProperty({ required:true})
-  sameCourseId: number;
+  @ApiProperty({ required: false })
+  sameCourseId?: number | null;
 
 
   @IsString()

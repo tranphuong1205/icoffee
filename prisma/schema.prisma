@@ -16,10 +16,10 @@ model Post {
   making       String?
   image        String?
   flavor       String?
-  sameCourseId Int       @default(0) @map("same_course_id")
+  sameCourseId Int?       @default(0) @map("same_course_id")
   categoryId   Int       @map("category_id")
   category     Category  @relation(fields: [categoryId], references: [id])
-  sameCourse   JapanFood @relation(fields: [sameCourseId], references: [id])
+  sameCourse   JapanFood? @relation(fields: [sameCourseId], references: [id])
   Like         Like[]
   Comment      Comment[]
 
