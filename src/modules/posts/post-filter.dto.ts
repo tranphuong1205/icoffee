@@ -11,10 +11,12 @@ export class FilterPostDto {
   search?: string;
 
   @IsOptional()
-  @IsNumber()
-  @Transform(({value}) => Number(value))
-  @ApiProperty({ required: false })
+  @Transform(({ value }) => (Array.isArray(value) ? value.map(Number) : [Number(value)]))
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @ApiProperty({ required: false, type: [Number] })
   categoryId?: number[];
+  
 
   @IsOptional()
   @IsString()
