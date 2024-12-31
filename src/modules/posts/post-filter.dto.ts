@@ -19,9 +19,11 @@ export class FilterPostDto {
   
 
   @IsOptional()
-  @IsString()
-  @ApiProperty({ required: false })
-  flavor?: string[];
+  @Transform(({ value }) => (Array.isArray(value) ? value.map(Number) : [Number(value)]))
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @ApiProperty({ required: false, type: [Number] })
+  flavorId?: number[];
 
   @IsOptional()
   @Transform(({value}) => (Array.isArray(value) ? value.map((item) => Number(item)) : [Number(value)]))

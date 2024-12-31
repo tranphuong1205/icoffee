@@ -24,14 +24,13 @@ export class CreatePostDto {
   @ApiProperty({ required: false })
   sameCourseId?: number | null;
 
-
   @IsString()
   @ApiProperty({ required: true })
   materials: string;
 
   @IsString()
   @ApiProperty({ required: true })
-  flavor: string;
+  flavorDetail: string;
 
   @IsString()
   @ApiProperty({ required: false })
@@ -40,4 +39,5 @@ export class CreatePostDto {
   @IsString()
   @ApiProperty({ required: false })
   image   : string;
+  
 }

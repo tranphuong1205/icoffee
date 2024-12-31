@@ -11,7 +11,7 @@ export class PostsRepository {
     return this.prisma.post.create({data})
   }
   async filter(filter: FilterPostDto) {
-    const { categoryId, beginPrice, endPrice, flavor, search } = filter;
+    const { categoryId, beginPrice, endPrice, flavorId, search } = filter;
 
     // Build the filter object
     const where: any = {};
@@ -44,12 +44,13 @@ export class PostsRepository {
     }
 
     // Filter by flavor if provided
-    if (flavor) {
-      where.flavor = {
-        contains: flavor,
-      };
+    if (flavorId) { 
+      if (Array.isArray(flavorId)) {
+        where.flavorId = { in: flavorId };
+      } else {
+        where.flavorId = flavorId;
+      }
     }
-
     // Add search filter for name or flavor
     if (search) {
       where.OR = [

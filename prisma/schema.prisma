@@ -16,16 +16,19 @@ model Post {
   making       String?    @db.VarChar(500)
   image        String?    @db.VarChar(300)
   categoryId   Int        @map("category_id")
-  flavor       String?
+  flavorDetail String?
   sameCourseId Int?       @default(0) @map("same_course_id")
   name_jp      String?
+  flavorId     Int?
   Comment      Comment[]
   Like         Like[]
   category     Category   @relation(fields: [categoryId], references: [id])
+  flavor       Flavor?    @relation(fields: [flavorId], references: [flavorId], onDelete: NoAction, onUpdate: NoAction, map: "Post_flavor_FK")
   sameCourse   JapanFood? @relation(fields: [sameCourseId], references: [id], onDelete: Restrict)
 
   @@index([categoryId], map: "Post_category_id_fkey")
   @@index([sameCourseId], map: "Post_same_course_id_fkey")
+  @@index([flavorId], map: "Post_flavor_FK")
 }
 
 model Category {
@@ -73,4 +76,10 @@ model JapanFood {
   description String?
   image       String?
   Post        Post[]
+}
+
+model Flavor {
+  flavorId   Int    @id @default(autoincrement())
+  flavorType String
+  Post       Post[]
 }
