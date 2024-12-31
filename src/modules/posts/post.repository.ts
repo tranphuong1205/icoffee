@@ -18,7 +18,11 @@ export class PostsRepository {
 
     // Filter by categoryId if provided
     if (categoryId) {
+    if (Array.isArray(categoryId)) {
+      where.categoryId = { in: categoryId };
+    } else {
       where.categoryId = categoryId;
+    }
     }
 
     // Filter by multiple price ranges if beginPrice and endPrice are arrays
