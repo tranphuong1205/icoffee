@@ -56,7 +56,7 @@ export class PostsRepository {
       where.OR = [
         ...(where.OR || []), // Include previous OR conditions if any
         { name: { contains: search } },
-        { flavor : { contains: search} },
+        { name_jp : { contains: search} },
       ];
     }
 
