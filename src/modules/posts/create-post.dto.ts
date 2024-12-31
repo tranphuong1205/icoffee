@@ -8,6 +8,10 @@ export class CreatePostDto {
   @ApiProperty({ required: true })
   name: string;
 
+  @IsString()
+  @ApiProperty({ required: true })
+  name_jp: string;
+
   @IsNumber()
   @ApiProperty({ required: false })
   price: number;

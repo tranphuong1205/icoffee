@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets   = ["native", "windows"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows"]
 }
 
 datasource db {
@@ -9,21 +9,23 @@ datasource db {
 }
 
 model Post {
-  id           Int       @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
   price        Float?
-  materials    String    @default("")
-  making       String?
-  image        String?
+  materials    String     @default("") @db.VarChar(500)
+  making       String?    @db.VarChar(500)
+  image        String?    @db.VarChar(300)
+  categoryId   Int        @map("category_id")
   flavor       String?
   sameCourseId Int?       @default(0) @map("same_course_id")
-  categoryId   Int       @map("category_id")
-  category     Category  @relation(fields: [categoryId], references: [id])
-  sameCourse   JapanFood? @relation(fields: [sameCourseId], references: [id])
-  Like         Like[]
+  name_jp      String?
   Comment      Comment[]
+  Like         Like[]
+  category     Category   @relation(fields: [categoryId], references: [id])
+  sameCourse   JapanFood? @relation(fields: [sameCourseId], references: [id], onDelete: Restrict)
 
   @@index([categoryId], map: "Post_category_id_fkey")
+  @@index([sameCourseId], map: "Post_same_course_id_fkey")
 }
 
 model Category {
@@ -37,10 +39,13 @@ model Comment {
   userId      Int    @map("user_id")
   userName    String @map("user_name")
   description String
-  rate        Float  @default(5.0)
   postId      Int    @map("post_id")
-  user        User   @relation(fields: [userId], references: [id])
+  rate        Float  @default(5)
   post        Post   @relation(fields: [postId], references: [id])
+  user        User   @relation(fields: [userId], references: [id])
+
+  @@index([postId], map: "Comment_post_id_fkey")
+  @@index([userId], map: "Comment_user_id_fkey")
 }
 
 model User {
@@ -48,18 +53,18 @@ model User {
   name     String
   email    String
   password String
-  Like     Like[]
   Comment  Comment[]
+  Like     Like[]
 }
 
 model Like {
-  userId Int @map("user_id")
-  postId Int @map("post_id")
+  userId Int  @map("user_id")
+  postId Int  @map("post_id")
+  Post   Post @relation(fields: [postId], references: [id])
+  User   User @relation(fields: [userId], references: [id])
 
-  User User @relation(fields: [userId], references: [id])
-  Post Post @relation(fields: [postId], references: [id])
-
-  @@id([userId, postId]) // Composite primary key to ensure uniqueness
+  @@id([userId, postId])
+  @@index([postId], map: "Like_post_id_fkey")
 }
 
 model JapanFood {
